@@ -190,7 +190,7 @@ class UpComingMoviesData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final movieCubit =
+    final movieUpomingCubit =
         BlocProvider.of<UpComingCubit>(context).getUpComingMovies();
     return Column(
       children: [

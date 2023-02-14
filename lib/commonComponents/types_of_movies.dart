@@ -211,12 +211,10 @@ class UpComingMoviesData extends StatelessWidget {
                 child: Text('Error: ${state.errMessage}'),
               );
             }
-            return Center(
-              child: Container(
-                child: const Text(
-                  'Some thing went wrong',
-                  style: TextStyle(fontSize: 25),
-                ),
+            return const Center(
+              child: Text(
+                'Some thing went wrong',
+                style: TextStyle(fontSize: 25),
               ),
             );
           },

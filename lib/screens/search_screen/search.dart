@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:movie_info/constants.dart';
-import 'package:movie_info/cubits/search_cubit/search_cubit.dart';
+import '../../constants.dart';
+import '../../cubits/search_cubit/search_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,12 +11,12 @@ import '../../helper.dart';
 import '../detailsScreen/details_screen.dart';
 
 class SearchPage extends StatelessWidget {
-// final movieSearch=BlocProvider.of<MovieCubit>(context).searchMovies(movieName: '');
-  SearchPage({super.key});
+  SearchPage({Key? key}) : super(key: key);
   String movieNamee = '';
   final _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final movieSearch = BlocProvider.of<SearchCubit>(context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Column(
@@ -28,33 +28,25 @@ class SearchPage extends StatelessWidget {
               style: const TextStyle(color: Colors.white),
               controller: _searchController,
               onChanged: (data) {
-                movieNamee = data;
-                //   BlocProvider.of<SearchCubit>(context)
-                //       .getSearchedMovies(movieName: movieNamee);
-                // },
-                if (data.isNotEmpty) {
-                  // BlocProvider.of<SearchCubit>(context)
-                  //     .getSearchedMovies(movieName: movieNamee);
-                  // BlocProvider.of<SearchCubit>(context)
-                  //     .searchedMoviesList
-                  //     .clear();
-                  // BlocProvider.of<SearchCubit>(context).clearSearchResults();
+                //  movieNamee = data;
+                if (data.isEmpty) {
+                  BlocProvider.of<SearchCubit>(context).clearSearchResults();
+                  _searchController.clear();
+                } else {
+                  movieNamee = data;
                 }
               },
               onSubmitted: (data) {
-                movieNamee = data;
                 // if (data.isEmpty) {
                 //   BlocProvider.of<SearchCubit>(context)
                 //       .searchedMoviesList
                 //       .clear();
                 // } else
+                movieNamee = data;
                 BlocProvider.of<SearchCubit>(context).clearSearchResults();
+
                 BlocProvider.of<SearchCubit>(context)
                     .getSearchedMovies(movieName: movieNamee);
-                // {
-                //   BlocProvider.of<SearchCubit>(context)
-                //       .getSearchedMovies(movieName: movieNamee);
-                // }
               },
               decoration: InputDecoration(
                 filled: true,
@@ -66,7 +58,6 @@ class SearchPage extends StatelessWidget {
                     onTap: () async {
                       BlocProvider.of<SearchCubit>(context)
                           .clearSearchResults();
-                      // BlocProvider.of<SearchCubit>(context);
                       BlocProvider.of<SearchCubit>(context)
                           .getSearchedMovies(movieName: _searchController.text);
                     },
@@ -75,7 +66,7 @@ class SearchPage extends StatelessWidget {
                     top: 28, bottom: 28, left: 22, right: 22),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
-                hintText: 'Enter a Movie Name',
+                hintText: 'Search a Movie',
                 hintStyle: const TextStyle(
                   fontSize: 16,
                   letterSpacing: 1,
@@ -96,7 +87,7 @@ class SearchPage extends StatelessWidget {
             //     .getSearchedMovies(movieName: movieNamee);
             if (state is SearchMoviesSuccess) {
               return state.searchedMoviesList.isEmpty
-                  ? const NoMoviesErrorWidget()
+                  ? const Expanded(child: NoMoviesErrorWidget())
                   : Expanded(
                       child: CustomScrollView(
                         slivers: [
@@ -134,26 +125,26 @@ class SearchPage extends StatelessWidget {
                                               child: ClipRRect(
                                                 borderRadius:
                                                     BorderRadius.circular(15),
-                                                child: state
-                                                                .searchedMoviesList[
-                                                                    index]
-                                                                .poster ==
-                                                            null ||
-                                                        state
+                                                child:
+                                                    // state.searchedMoviesList[
+                                                    //                 index] ==
+                                                    //             null &&
+                                                    state
                                                             .searchedMoviesList[
                                                                 index]
                                                             .poster
                                                             .isEmpty
-                                                    ? const ErrorImageWidget()
-                                                    : CachedNetworkImage(
-                                                        imageUrl:
-                                                            '$basePicturesUrl${state.searchedMoviesList[index].poster}',
-                                                        fit: BoxFit.fill,
-                                                        errorWidget: (context,
-                                                            url, error) {
-                                                          return const ErrorImageWidget();
-                                                        },
-                                                      ),
+                                                        ? const ErrorPosterImageWidget()
+                                                        : CachedNetworkImage(
+                                                            imageUrl:
+                                                                '$basePicturesUrl${state.searchedMoviesList[index].poster}',
+                                                            fit: BoxFit.fill,
+                                                            errorWidget:
+                                                                (context, url,
+                                                                    error) {
+                                                              return const ErrorPosterImageWidget();
+                                                            },
+                                                          ),
                                               ),
                                             ),
                                           ),
@@ -167,13 +158,13 @@ class SearchPage extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  state.searchedMoviesList
-                                                              .isNotEmpty &&
-                                                          state
-                                                              .searchedMoviesList[
-                                                                  index]
-                                                              .title
-                                                              .isNotEmpty
+                                                  // state.searchedMoviesList
+                                                  //             .isNotEmpty &&
+                                                  state
+                                                          .searchedMoviesList[
+                                                              index]
+                                                          .title
+                                                          .isNotEmpty
                                                       ? Text(
                                                           state
                                                               .searchedMoviesList[
@@ -244,6 +235,31 @@ class SearchPage extends StatelessWidget {
                                                                           "0")
                                                                       .substring(
                                                                           0, 3))
+
+                                                              //             // state
+                                                              //             //             .searchedMoviesList
+                                                              //             //             .isNotEmpty &&
+                                                              //             //         state
+                                                              //             //                 .searchedMoviesList[
+                                                              //             //                     index]
+                                                              //             //                 .votingAverage !=
+                                                              //             //             null
+                                                              //             //     ? (state
+                                                              //             //                 .searchedMoviesList[
+                                                              //             //                     index]
+                                                              //             //                 .votingAverage
+                                                              //             //             is int
+                                                              //             //         ? state
+                                                              //             //             .searchedMoviesList[
+                                                              //             //                 index]
+                                                              //             //             .votingAverage
+                                                              //             //             .toString()
+                                                              //             //         : int.parse(state
+                                                              //             //                 .searchedMoviesList[
+                                                              //             //                     index]
+                                                              //             //                 .votingAverage
+                                                              //             //                 .toString())
+                                                              //             //             .toString())
                                                               : "N/A",
                                                           style:
                                                               const TextStyle(

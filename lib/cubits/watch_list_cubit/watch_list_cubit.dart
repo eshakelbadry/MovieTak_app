@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:movie_info/models/movie_model.dart';
+import '../../models/movie_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 part 'watch_list_state.dart';
 

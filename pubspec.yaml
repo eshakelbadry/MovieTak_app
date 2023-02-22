@@ -31,10 +31,11 @@ environment:
 dependencies:
   animations: ^2.0.7
   cached_network_image: ^3.2.3
-  connectivity_plus: ^3.0.3
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.11.0
+  flutter_offline: ^2.1.0
   intl: ^0.18.0
   shared_preferences: ^2.0.17
 
@@ -44,6 +45,11 @@ dev_dependencies:
   flutter_bloc: ^8.1.1
   flutter_lints: ^2.0.0
   # flutter_svg: ^0.19.1 #Help us to use SVG in our  app
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  min_sdk_android: 21  
   flutter_test:
     sdk: flutter
 
@@ -66,6 +72,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/gifs/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

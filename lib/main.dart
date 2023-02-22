@@ -1,42 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:movie_info/cubits/app_cubit/app_cubit.dart';
-import 'package:movie_info/cubits/popular_cubit/popular_cubit.dart';
-import 'package:movie_info/cubits/similar_cubit/similar_cubit.dart';
-import 'package:movie_info/models/movie.dart';
-import 'package:movie_info/models/movie_model.dart';
-import 'package:movie_info/screens/details/details_page.dart';
-import 'package:movie_info/screens/details_test.dart';
-import 'package:movie_info/screens/home.dart';
-import 'package:movie_info/screens/homeScreen/home_body.dart';
-import 'package:movie_info/screens/homeScreen/home_layout.dart';
-import 'package:movie_info/screens/search_screen/search.dart';
-import 'package:movie_info/services/movies_details.dart';
-import 'package:movie_info/services/nowPlaying_movies_service.dart';
-import 'package:movie_info/services/popular_movies_service.dart';
-import 'package:movie_info/services/search_movies_service.dart';
-import 'package:movie_info/services/similar_movies_service.dart';
-import 'package:movie_info/services/topRated_movies_service.dart';
-import 'package:movie_info/services/upComing_movies_service.dart';
-import 'package:movie_info/shared_preference.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'constants.dart';
+import 'cubits/app_cubit/app_cubit.dart';
 import 'cubits/details_movies_cubit/details_movies_cubit.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'cubits/now_playing_cubit/now_playing_cubit.dart';
+import 'cubits/popular_cubit/popular_cubit.dart';
 import 'cubits/search_cubit/search_cubit.dart';
+import 'cubits/similar_cubit/similar_cubit.dart';
 import 'cubits/top_rated_cubit/top_rated_cubit.dart';
 import 'cubits/up_coming_cubit/up_coming_cubit.dart';
+import 'screens/homeScreen/home_layout.dart';
+import 'screens/splashScreen/splash_screen.dart';
+import 'services/movies_details.dart';
+import 'services/nowPlaying_movies_service.dart';
+import 'services/popular_movies_service.dart';
+import 'services/search_movies_service.dart';
+import 'services/similar_movies_service.dart';
+import 'services/topRated_movies_service.dart';
+import 'services/upComing_movies_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
   bool isDark = sharedPreferences.getBool('isDark') ?? true;
-  checkConnectivity();
+  // checkConnectivity();
 
   runApp(
     MultiBlocProvider(
@@ -86,10 +75,10 @@ Future<void> main() async {
   );
 }
 
-void checkConnectivity() async {
-  var result = await Connectivity().checkConnectivity();
-  print(result);
-}
+// void checkConnectivity() async {
+//   var result = await Connectivity().checkConnectivity();
+//   print(result);
+// }
 
 class MovieApp extends StatelessWidget {
   const MovieApp({super.key});
@@ -106,8 +95,7 @@ class MovieApp extends StatelessWidget {
                   backgroundColor: kAppBarBackgroundColor,
                   iconTheme: IconThemeData(color: Colors.white)),
               progressIndicatorTheme: const ProgressIndicatorThemeData(
-                  color: kProgressIndicatorLightThemeColor
-                  ),
+                  color: kProgressIndicatorLightThemeColor),
               scaffoldBackgroundColor: kScaffoldBackgroundLightThemeColor,
               primaryColorLight: const Color.fromARGB(255, 0, 0, 0),
               textTheme: const TextTheme(
@@ -118,8 +106,7 @@ class MovieApp extends StatelessWidget {
               )),
           darkTheme: ThemeData(
             progressIndicatorTheme: const ProgressIndicatorThemeData(
-              color: kProgressIndicatorDarkThemeColor
-            ),
+                color: kProgressIndicatorDarkThemeColor),
             appBarTheme: const AppBarTheme(
                 backgroundColor: kAppBarBackgroundColor,
                 iconTheme: IconThemeData(color: Colors.white)),
@@ -135,7 +122,7 @@ class MovieApp extends StatelessWidget {
           themeMode: BlocProvider.of<AppCubit>(context).isDark
               ? ThemeMode.light
               : ThemeMode.dark,
-          home: HomeLayOut(),
+          home: SplashPage(),
         );
       },
     );

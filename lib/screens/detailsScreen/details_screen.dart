@@ -1,18 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:movie_info/constants.dart';
-import 'package:movie_info/cubits/details_movies_cubit/details_movies_cubit.dart';
-import 'package:movie_info/cubits/similar_cubit/similar_cubit.dart';
-import 'package:movie_info/cubits/watch_list_cubit/watch_list_cubit.dart';
+
+import '../../constants.dart';
+import '../../cubits/details_movies_cubit/details_movies_cubit.dart';
 import '../../cubits/now_playing_cubit/now_playing_cubit.dart';
 import '../../cubits/similar_cubit/similar_cubit.dart';
+import '../../cubits/similar_cubit/similar_cubit.dart';
+import '../../cubits/watch_list_cubit/watch_list_cubit.dart';
 import '../../helper.dart';
 import '../../models/movie_model.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class DetailsPage extends StatelessWidget {
   DetailsPage({super.key, required this.id});
@@ -42,11 +43,11 @@ class DetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
+                      SizedBox(
                         height: height * 0.51,
                         child: Stack(
                           children: [
-                            Container(
+                            SizedBox(
                               height: height * 0.47,
                               width: width,
                               child: ClipRRect(
@@ -61,7 +62,7 @@ class DetailsPage extends StatelessWidget {
                                             '$basePicturesUrl${cubit.detailsMovies!.backdropPath}',
                                         fit: BoxFit.fill,
                                         errorWidget: (context, url, error) {
-                                          return const ErrorImageWidget();
+                                          return const ErrorBackdropImageWidget();
                                         },
                                       )
                                     : const Center(
@@ -94,7 +95,7 @@ class DetailsPage extends StatelessWidget {
                                                     null
                                             ? formatReleaseDate(cubit
                                                 .detailsMovies!.releaseDate!)
-                                            : "N/A",
+                                            : "N/A    ",
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 16,
@@ -121,7 +122,7 @@ class DetailsPage extends StatelessWidget {
                                             : "N/A",
                                         style: const TextStyle(
                                             color: Colors.black,
-                                            fontWeight: FontWeight.w600)),
+                                            fontWeight: FontWeight.w500)),
                                     SizedBox(width: width * 0.03),
                                     const Icon(Icons.access_time_outlined,
                                         color: Colors.black, size: 26),
@@ -142,10 +143,9 @@ class DetailsPage extends StatelessWidget {
                                                     null
                                             ? "${(cubit.detailsMovies!.runtime!).remainder(60)}m"
                                             : "N/A",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.w500,
-                                            color:
-                                                Colors.black.withOpacity(0.8))),
+                                            color: Colors.black)),
                                   ],
                                 ),
                               ),
@@ -267,9 +267,7 @@ class DetailsPage extends StatelessWidget {
                     ],
                   );
                 }
-                return Container(
-                  child: const Text('error '),
-                );
+                return const Text('error ');
               },
             ),
             BlocConsumer<SimilarCubit, SimilarState>(
@@ -279,19 +277,11 @@ class DetailsPage extends StatelessWidget {
 
                 if (state is SimilarMoviesSuccess) {
                   return cubit.similarMoviesList.isEmpty
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(height: height * 0.03),
-                            const Icon(Icons.error_outline_outlined, size: 40),
-                            const SizedBox(height: 8),
-                            const Text('No Similar Movies Was Found')
-                          ],
-                        )
+                      ? const NoSimilarMoviesErrorWidget()
                       : SingleChildScrollView(
                           child: Padding(
                             padding: const EdgeInsets.all(12),
-                            child: Container(
+                            child: SizedBox(
                               height: height * 0.6,
                               child: GridView.builder(
                                 itemCount: cubit.similarMoviesList.length,
@@ -320,20 +310,21 @@ class DetailsPage extends StatelessWidget {
                                                     null ||
                                                 cubit.similarMoviesList[index]
                                                     .poster.isEmpty
-                                            ? const ErrorImageWidget()
+                                            ? const ErrorPosterImageWidget()
                                             : CachedNetworkImage(
                                                 imageUrl:
                                                     '$basePicturesUrl$similarPosterUrl',
                                                 fit: BoxFit.fill,
                                                 errorWidget:
                                                     (context, url, error) {
-                                                  return const ErrorImageWidget();
+                                                  return const ErrorPosterImageWidget();
                                                 },
                                               ),
                                       ),
                                     ),
                                     onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(
+                                      Navigator.pushReplacement(context,
+                                          MaterialPageRoute(
                                         builder: (context) {
                                           return DetailsPage(
                                               id: cubit

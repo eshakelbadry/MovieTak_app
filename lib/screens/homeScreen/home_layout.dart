@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:movie_info/constants.dart';
-import 'package:movie_info/screens/search_screen/search.dart';
-import 'package:movie_info/screens/watchListScreen/watch_list_screen.dart';
+import 'package:flutter_offline/flutter_offline.dart';
+import '../../constants.dart';
+import '../../helper.dart';
+import '../search_screen/search.dart';
+import '../watchListScreen/watch_list_screen.dart';
 import '../../models/movie_model.dart';
 import 'home_body.dart';
 
@@ -22,7 +24,6 @@ class _HomeLayOutState extends State<HomeLayOut> {
     HomeBody(),
     SearchPage(),
     // WatchListPage(),
-    // SettingsPage()
   ];
 
   @override
@@ -31,54 +32,38 @@ class _HomeLayOutState extends State<HomeLayOut> {
     double width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-          // appBar: AppBar(
-          //   elevation: 0,
-          //   automaticallyImplyLeading: false,
-          //   title: Text('Welcome To MovieX'),
-          //   actions: [
-          //     IconButton(
-          //       onPressed: () {},
-          //       icon: Icon(Icons.light_mode_rounded),
-          //     )
-          //   ],
-          // ),
-          // backgroundColor: kBackgroundColor,
-          bottomNavigationBar: ConvexAppBar(
-            items: const [
-              TabItem(
-                  icon: Icon(Icons.home_outlined, color: Colors.black),
-                  title: 'Home'),
-              TabItem(
-                  icon: Icon(Icons.manage_search_outlined, color: Colors.black),
-                  title: 'Search'),
-              // TabItem(
-              //   icon: Icon(Icons.favorite_border_outlined, color: Colors.black),
-              //   title: 'WatchList',
-
-                // backgroundColor: Colors.red
-              // ),
-              // TabItem(
-              //     icon: Icon(Icons.settings_applications_sharp), title: 'Settings'
-              //     // backgroundColor: Colors.green
-              //     ),
-            ],
-            initialActiveIndex: selectedIndex,
-
-            //      selectedItemColor: kPrimaryColor,
-            // unselectedItemColor: Colors.grey,
-
-            onTap: ((index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            }),
-            backgroundColor: kBottomNavigationBarColor,
-            height: 60,
-            // color: Colors.amber,
-            // shadowColor: Colors.brown,
-            // style: TabStyle.textIn,
-          ),
-          body: pages.elementAt(selectedIndex)),
+        bottomNavigationBar: ConvexAppBar(
+          items: const [
+            TabItem(
+                icon: Icon(Icons.home_outlined, color: Colors.black),
+                title: 'Home'),
+            TabItem(
+                icon: Icon(Icons.manage_search_outlined, color: Colors.black),
+                title: 'Search'),
+          ],
+          initialActiveIndex: selectedIndex,
+          onTap: ((index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          }),
+          backgroundColor: kBottomNavigationBarColor,
+          height: 60,
+        ),
+        body: OfflineBuilder(
+          connectivityBuilder: (
+            BuildContext context,
+            ConnectivityResult connectivity,
+            Widget child,
+          ) {
+            final bool connected = connectivity != ConnectivityResult.none;
+            return connected
+                ? pages.elementAt(selectedIndex)
+                : const NoInternetErrorWidget();
+          },
+          child: const CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }

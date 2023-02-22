@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:movie_info/services/nowPlaying_movies_service.dart';
-import 'package:movie_info/services/search_movies_service.dart';
-import 'package:movie_info/services/topRated_movies_service.dart';
-import 'package:movie_info/services/upComing_movies_service.dart';
+import '../../services/nowPlaying_movies_service.dart';
+import '../../services/search_movies_service.dart';
+import '../../services/topRated_movies_service.dart';
+import '../../services/upComing_movies_service.dart';
 
 import '../../models/movie_model.dart';
 import '../../services/popular_movies_service.dart';

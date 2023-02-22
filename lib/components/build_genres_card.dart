@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BuildGenresCard extends StatelessWidget {
@@ -8,8 +7,8 @@ class BuildGenresCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.only(left: 20),
-      padding: EdgeInsets.symmetric(
+      margin: const EdgeInsets.only(left: 20),
+      padding: const EdgeInsets.symmetric(
         horizontal: 12,
       ),
       decoration: BoxDecoration(

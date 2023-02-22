@@ -1,11 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meta/meta.dart';
-import 'package:movie_info/shared_preference.dart';
-import 'package:movie_info/shared_preference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import '../../shared_preference.dart';
 
 part 'app_state.dart';
 

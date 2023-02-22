@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:movie_info/models/movie_details.dart';
 
-import '../models/movie_model.dart';
+import 'package:http/http.dart' as http;
+
+import '../models/movie_details.dart';
+
 
 class DetailsMoviesService {
   final String apiKey = '2b87897c4f0f495993d86da3f6994e0a';

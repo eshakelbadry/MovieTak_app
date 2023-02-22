@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:movie_info/commonComponents/movies_type_see_more_button.dart';
-import 'package:movie_info/constants.dart';
-import 'package:movie_info/cubits/app_cubit/app_cubit.dart';
+import 'commonComponents/movies_type_see_more_button.dart';
+import '../../constants.dart';
+import '../../cubits/app_cubit/app_cubit.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_info/models/movie_model.dart';
+import '../../models/movie_model.dart';
 
-import '../../commonComponents/horizontal_movies_items_list.dart';
-import '../../commonComponents/types_of_movies.dart';
+import 'commonComponents/horizontal_movies_items_list.dart';
+import 'commonComponents/types_of_movies.dart';
 import '../detailsScreen/details_screen.dart';
-import '../seeMoreScreen/see_more_screen.dart';
+import '../seeMoreScreens/now_playing_more.dart';
 
 class HomeBody extends StatelessWidget {
   HomeBody({
@@ -37,7 +37,7 @@ class HomeBody extends StatelessWidget {
                 children: [
                   // SizedBox(width: 2),
                   const Text(
-                    'Welcome To MovieX',
+                    'Welcome To MovieMate',
                     style: TextStyle(fontFamily: pacificoFont),
                   ),
                   // const SizedBox(width: 4),

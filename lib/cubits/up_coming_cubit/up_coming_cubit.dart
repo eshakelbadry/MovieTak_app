@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:movie_info/models/movie_model.dart';
+import '../../models/movie_model.dart';
 
 import '../../services/upComing_movies_service.dart';
 

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:movie_info/models/movie_model.dart';
-import 'package:movie_info/services/topRated_movies_service.dart';
+import '../../models/movie_model.dart';
+import '../../services/topRated_movies_service.dart';
 
 part 'top_rated_state.dart';
 
